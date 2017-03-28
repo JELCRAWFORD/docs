@@ -3,9 +3,11 @@
 The Intel Edison system comes with a very limited Operating System. It's best to replace this with a custom version of Debian, so that the config is as-close to the Raspberry Pi as possible. This fits best with OpenAPS, and it also means you have the latest security and stability patches. (These setup instructions were pulled from the mmeowlink wiki; if you're an advanced user and want/need to use Ubilinux instead of the recommended Jubilinux, [go here](https://github.com/oskarpearson/mmeowlink/wiki/Prepare-the-Edison-for-OpenAPS).) The setup instructions also are going to assume you're using the Explorer Board that has a built in radio stick. If you're using any other base board and/or any other radio sticks (TI, ERF, Rileylink, etc.), check out [the mmeowlink wiki](https://github.com/oskarpearson/mmeowlink/wiki) for support of those hardware options.
 
 ## Helpful notes before you get started
-Your Explorer Board has 2 micro USB connectors, they both provide power. On the community developed Edison Explorer Board the port labeled OTG is for flashing, and the one labeled UART provides console login. You must connect both ports to your computer to complete the flash process.
+Your Explorer Board has 2 micro USB connectors, they both provide power. On the community developed Edison Explorer Board the port labeled OTG is for flashing, and the one labeled UART provides console login. *Important - You must connect both ports to your computer to complete the flash process.
 
 You must use a DATA micro USB to USB cable. How do you know if your cable is for data? One good way is to plug the cable into your computer USB port and the explorer board OTG port. If your folder/window explorer shows Edison as a drive then the cable supports data.
+
+Reminder:  there is a list of helpful commands you will need to be familiar with and prepared to use in your terminal window during this set up - find these in the first section of these documents - titled "Before You Get Started".
 
 ## Prerequisites
 
@@ -49,7 +51,7 @@ Windows PCs with less than 6 GB of RAM  may need to have the size of the page fi
 
   - Download [jubilinux.zip](http://www.robinkirkman.com/jubilinux/jubilinux.zip)
   - In download folder, right-click on file and extract (or use `unzip jubilinux.zip` from the command line) You will access this directory from a command prompt in the next step. It is a good idea to create the Jubilinux in your root directory to make this easier to access.
-  - Open a terminal window and navigate to the extracted folder: `cd jubilinux`. If using Windows OS use the command prompt (cmd). This is your "flash window", keep it open for later.
+  - Open a terminal window and navigate to the extracted folder: `cd jubilinux`. If using Windows OS use the command prompt (cmd). This is your "flash window", keep it open for later - **you should now have TWO console/terminal windows open - leave them both open as you proceed.
   
   For Windows OS:
   
@@ -77,7 +79,7 @@ Windows PCs with less than 6 GB of RAM  may need to have the size of the page fi
   
 ### All platforms:
   - Once the screen comes up, press enter a few times to wake things up. This will give you a "console" view of what is happening on your Edison. 
-  - Now you will see a login prompt for the edison on the console screen. Login using the username "root" (all lowercase) and no password. This will have us ready to reboot from the command line when we are ready.
+  - Now you will see a login prompt for the edison on the console screen. Login using the username "root" (all lowercase) and no password. This will have us ready to reboot from the command line when we are ready.  You will need to be sure to be in root for your setup.
   - Don't resize your console window: it will likely mess up your terminal's line wrapping.  (Once you get wifi working and connect with SSH you can resize safely.)
 
 ## Flashing image onto the Edison
@@ -132,7 +134,7 @@ iface wlan0 inet dhcp
 ```
 Comment out or delete the wpa-ssid and wpa-psk lines.
 
-After editing, your file should look like:
+After editing, your file should look like - line breaks are important also, not just content:
 
 ```
 # interfaces(5) file used by ifup(8) and ifdown(8)
@@ -193,7 +195,7 @@ If you need more details on setting up wpa_supplicant.conf, see one of these gui
 
 ## Install packages, ssh keys, and other settings
 
-From a new terminal or PuTTY window, `ssh myedisonhostname.local`. If you can't connect via `youredisonhostname.local` (for example, on a Windows PC without iTunes), you can instead connect directly to the IP address you found with `ifconfig` above.
+From a new terminal or PuTTY window, `ssh root@myedisonhostname.local`. If you can't connect via `youredisonhostname.local` (for example, on a Windows PC without iTunes), you can instead connect directly to the IP address you found with `ifconfig` above.
 
 Log in as root (with the password you just set above), and run:
 
@@ -209,7 +211,8 @@ And:
     adduser edison sudo
     adduser edison dialout
     dpkg-reconfigure tzdata    # Set local time-zone
-       Use arrow button to choose zone then arrow to the right to make cursor highlight <OK> then hit ENTER
+
+To adjust settings above, use arrow button to choose zone then arrow to the right to make cursor highlight <OK> then hit ENTER
 
 Edit (with `nano` or `vi`) /etc/logrotate.conf and change the log rotation to `daily` from `weekly` and enable log compression by removing the hash on the #compress line, to reduce the probability of running out of disk space
 
