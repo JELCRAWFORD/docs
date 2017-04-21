@@ -280,6 +280,8 @@ If you suddenly find that Nightscout is not showing treatments (bolus, carbs, et
 
 You probably somehow got a future-dated treatment. 
 
+*Note - the above problem is related totreatments. Temporary Targets intentionally scheduled for the near future should not produce the above behaviour. The fix below, however, will necessitate resubmitting any future dated temporary targets that you may have had scheduled.
+
 **To resolve:**
 * Go into Nightscout under "Settings" and "Admin tools" and delete any future-dated treatments (press the "remove treatments in the future" button). 
 
